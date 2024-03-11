@@ -8,17 +8,19 @@ services:
 #      - redis-sentinel
      
   redis-master:
-    image: redis:6-alpine
+    image: redis:7-alpine
     volumes:
       - "./.data:/data"
+      - ~/properties/redis.conf:/etc/redis/redis.conf
     ports:
       - "6379:6379"
  
   redis-slave:
-    image: redis:6-alpine
+    image: redis:7-alpine
     command: redis-server --slaveof redis-master 6379
     volumes:
       - "./.data:/data"
+      - ~/properties/redis.conf:/etc/redis/redis.conf
     ports:
       - "6380:6380"
      
@@ -26,6 +28,8 @@ services:
   redis-sentinel:
     build: 
       context: ./redis-sentinel1
+    volumes:
+      - ~/properties/redis.conf:/etc/redis/redis.conf
     ports:
       - 26379:26379
  
@@ -33,6 +37,8 @@ services:
   redis-sentinel2:
     build: 
       context: ./redis-sentinel2
+    volumes:
+      - ~/properties/redis.conf:/etc/redis/redis.conf
     ports:
       - 26380:26380
  
@@ -40,5 +46,7 @@ services:
   redis-sentinel3:
     build: 
       context: ./redis-sentinel3
+    volumes:
+      - ~/properties/redis.conf:/etc/redis/redis.conf
     ports:
       - 26381:26381
