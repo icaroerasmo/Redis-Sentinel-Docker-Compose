@@ -9,6 +9,7 @@ services:
      
   redis-master:
     image: redis:7-alpine
+    command: ["redis-server", "/etc/redis/redis.conf"]
     volumes:
       - "./.data:/data"
       - ~/properties/redis.conf:/etc/redis/redis.conf
@@ -17,7 +18,7 @@ services:
  
   redis-slave:
     image: redis:7-alpine
-    command: redis-server --slaveof redis-master 6379
+    command: ["redis-server", "/etc/redis/master-redis.conf"]
     volumes:
       - "./.data:/data"
       - ~/properties/redis.conf:/etc/redis/redis.conf
