@@ -1,53 +1,51 @@
 version: '3.7'
 
 services:
- 
-#  app:
-#    image: some-image
-#    links:
-#      - redis-sentinel
      
   redis-master:
     image: redis:7-alpine
-    command: ["redis-server", "/etc/redis/redis.conf"]
+    command: "redis-server /etc/redis/master.conf"
     volumes:
-      - "./.data:/data"
+      - "~/.redis-master-data:/data"
       - ~/properties:/etc/redis
     ports:
       - "6379:6379"
  
   redis-slave:
     image: redis:7-alpine
-    command: ["redis-server", "/etc/redis/master-redis.conf"]
+    command: redis-server /etc/redis/slave.conf --slaveof redis-master 6379
     volumes:
-      - "./.data:/data"
+      - "~/.redis-slave-data:/data"
       - ~/properties:/etc/redis
     ports:
       - "6380:6380"
      
   # Instance 1
   redis-sentinel:
-    build: 
-      context: ./redis-sentinel1
+    image: redis:7-alpine
+    command: redis-server /etc/redis/sentinel1.conf --sentinel
     volumes:
+      - "~/.redis-sentinel1-data:/data"
       - ~/properties:/etc/redis
     ports:
       - 26379:26379
  
   # Instance 2
   redis-sentinel2:
-    build: 
-      context: ./redis-sentinel2
+    image: redis:7-alpine
+    command: redis-server /etc/redis/sentinel2.conf --sentinel
     volumes:
+      - "~/.redis-sentinel2-data:/data"
       - ~/properties:/etc/redis
     ports:
       - 26380:26380
  
   # Instance 3
   redis-sentinel3:
-    build: 
-      context: ./redis-sentinel3
+    image: redis:7-alpine
+    command: redis-server /etc/redis/sentinel3.conf --sentinel
     volumes:
+      - "~/.redis-sentinel3-data:/data"
       - ~/properties:/etc/redis
     ports:
       - 26381:26381
