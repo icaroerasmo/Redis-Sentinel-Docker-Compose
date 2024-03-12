@@ -28,7 +28,7 @@ services:
       - "~/.redis-sentinel1-data:/data"
       - ~/properties:/etc/redis
     ports:
-      - 26379:26379
+      - 6381:6381
  
   # Instance 2
   redis-sentinel2:
@@ -38,7 +38,7 @@ services:
       - "~/.redis-sentinel2-data:/data"
       - ~/properties:/etc/redis
     ports:
-      - 26380:26380
+      - 6382:26382
  
   # Instance 3
   redis-sentinel3:
@@ -48,4 +48,4 @@ services:
       - "~/.redis-sentinel3-data:/data"
       - ~/properties:/etc/redis
     ports:
-      - 26381:26381
+      - 6383:6383
